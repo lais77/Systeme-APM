@@ -115,9 +115,8 @@ export interface Notification {
 
 export interface AuthRequest {
   email: string;
-  motDePasse: string;
+  password: string;
 }
-
 export interface AuthResponse {
   token: string;
   user: User;

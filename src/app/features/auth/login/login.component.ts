@@ -18,7 +18,7 @@ export class LoginComponent {
   erreur = '';
   chargement = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit(): void {
     if (!this.email || !this.motDePasse) {
@@ -28,7 +28,7 @@ export class LoginComponent {
     this.chargement = true;
     this.erreur = '';
 
-    this.authService.login({ email: this.email, motDePasse: this.motDePasse }).subscribe({
+    this.authService.login({ email: this.email, password: this.motDePasse }).subscribe({
       next: (res) => {
         this.chargement = false;
         const role = res.user.role;
