@@ -1,0 +1,118 @@
+<div class="dashboard">
+  <div class="page-header">
+    <h1>Tableau de bord</h1>
+    <span class="subtitle">Vue globale — TIS Circuits</span>
+  </div>
+
+  <div *ngIf="chargement" class="loading">Chargement...</div>
+
+  <div *ngIf="!chargement && stats">
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Plans</div>
+        <div class="kpi-value blue">{{ stats.totalPlans }}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Total Actions</div>
+        <div class="kpi-value purple">{{ stats.totalActions }}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">En retard</div>
+        <div class="kpi-value red">{{ stats.actionsEnRetard }}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Taux clôture</div>
+        <div class="kpi-value green">{{ stats.tauxCloture }}%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Taux efficacité</div>
+        <div class="kpi-value orange">{{ stats.tauxEfficacite }}%</div>
+      </div>
+    </div>
+
+    <!-- Barres de progression -->
+    <div class="section">
+      <h2>Indicateurs de performance</h2>
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>Taux de réalisation</span>
+          <span>{{ stats.tauxRealisation }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill blue" [style.width.%]="stats.tauxRealisation"></div>
+        </div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>Taux de clôture</span>
+          <span>{{ stats.tauxCloture }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill green" [style.width.%]="stats.tauxCloture"></div>
+        </div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>Taux d'efficacité</span>
+          <span>{{ stats.tauxEfficacite }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill orange" [style.width.%]="stats.tauxEfficacite"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats par département -->
+    <div class="section">
+      <h2>Performance par département</h2>
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th>Département</th>
+            <th>Plans</th>
+            <th>Actions</th>
+            <th>Clôturées</th>
+            <th>Taux</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dept of statsDepartements">
+            <td>{{ dept.departmentName }}</td>
+            <td>{{ dept.totalPlans }}</td>
+            <td>{{ dept.totalActions }}</td>
+            <td>{{ dept.actionsCloturees }}</td>
+            <td>
+              <span class="badge" [class.green]="dept.tauxCloture >= 75"
+                    [class.orange]="dept.tauxCloture >= 50 && dept.tauxCloture < 75"
+                    [class.red]="dept.tauxCloture < 50">
+                {{ dept.tauxCloture }}%
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Actions en chiffres -->
+    <div class="section">
+      <h2>Répartition des actions</h2>
+      <div class="repartition">
+        <div class="rep-item">
+          <div class="rep-dot blue"></div>
+          <span>En cours : {{ stats.actionsEnCours }}</span>
+        </div>
+        <div class="rep-item">
+          <div class="rep-dot green"></div>
+          <span>Clôturées : {{ stats.actionsCloturees }}</span>
+        </div>
+        <div class="rep-item">
+          <div class="rep-dot red"></div>
+          <span>En retard : {{ stats.actionsEnRetard }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -18,16 +18,16 @@ export const API = {
     logs: (id: number) => `${BASE}/users/${id}/logs`,
   },
   departements: {
-    getAll: `${BASE}/departements`,
-    create: `${BASE}/departements`,
-    update: (id: number) => `${BASE}/departements/${id}`,
-    delete: (id: number) => `${BASE}/departements/${id}`,
+    getAll: `${BASE}/departments`,
+    create: `${BASE}/departments`,
+    update: (id: number) => `${BASE}/departments/${id}`,
+    delete: (id: number) => `${BASE}/departments/${id}`,
   },
   processus: {
-    getAll: `${BASE}/processus`,
-    create: `${BASE}/processus`,
-    update: (id: number) => `${BASE}/processus/${id}`,
-    delete: (id: number) => `${BASE}/processus/${id}`,
+    getAll: `${BASE}/processes`,
+    create: `${BASE}/processes`,
+    update: (id: number) => `${BASE}/processes/${id}`,
+    delete: (id: number) => `${BASE}/processes/${id}`,
   },
   plans: {
     getAll: `${BASE}/plans`,
@@ -62,9 +62,9 @@ export const API = {
     delete: (id: number) => `${BASE}/fichiers/${id}`,
   },
   notifications: {
-    getMes: `${BASE}/notifications/mes-notifications`,
-    markRead: (id: number) => `${BASE}/notifications/${id}/lire`,
-    markAllRead: `${BASE}/notifications/tout-lire`,
+    getMes: `${BASE}/notifications/my`,
+    markRead: (id: number) => `${BASE}/notifications/${id}/read`,
+    markAllRead: `${BASE}/notifications/read-all`,
   },
   stats: {
     global: `${BASE}/stats/global`,
@@ -73,8 +73,8 @@ export const API = {
     byPeriode: `${BASE}/stats/by-periode`,
     performance: `${BASE}/stats/performance`,
     export: {
-      pdf: `${BASE}/stats/export/pdf`,
-      excel: `${BASE}/stats/export/excel`,
+      pdf: `${BASE}/export/pdf`,
+      excel: `${BASE}/export/excel`,
     }
   }
 };

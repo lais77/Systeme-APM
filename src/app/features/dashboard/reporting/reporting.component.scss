@@ -1,0 +1,99 @@
+.reporting-page {
+  padding: 1rem;
+}
+
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
+  .subtitle { color: #666; font-size: 0.95rem; }
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #10b981; // Vert typique Excel
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #059669; }
+  .icon { font-size: 1.2rem; }
+}
+
+.table-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.reporting-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  th {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  
+  td {
+    color: #334155;
+    font-size: 0.95rem;
+  }
+}
+
+.taux-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 150px;
+}
+
+.badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 50px;
+  text-align: center;
+
+  &.success { background: #dcfce7; color: #166534; }
+  &.warning { background: #fef3c7; color: #92400e; }
+  &.danger { background: #fee2e2; color: #991b1b; }
+}
+
+.mini-progress {
+  flex-grow: 1;
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .mini-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    
+    &.bg-success { background: #22c55e; }
+    &.bg-warning { background: #f59e0b; }
+    &.bg-danger { background: #ef4444; }
+  }
+}

@@ -11,6 +11,12 @@
 
       <!-- ADMIN -->
       <ng-container *ngIf="isAdmin()">
+        <a routerLink="/dashboard" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">
+          <span class="icon">📊</span> Dashboard
+        </a>
+        <a routerLink="/dashboard/reporting" routerLinkActive="active">
+          <span class="icon">📈</span> Reporting
+        </a>
         <a routerLink="/admin/users" routerLinkActive="active">
           <span class="icon">👥</span> Utilisateurs
         </a>
@@ -24,8 +30,11 @@
 
       <!-- MANAGER -->
       <ng-container *ngIf="isManager()">
-        <a routerLink="/dashboard" routerLinkActive="active">
+        <a routerLink="/dashboard" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">
           <span class="icon">📊</span> Dashboard
+        </a>
+        <a routerLink="/dashboard/reporting" routerLinkActive="active">
+          <span class="icon">📈</span> Reporting
         </a>
         <a routerLink="/plans" routerLinkActive="active">
           <span class="icon">📋</span> Plans Usine
