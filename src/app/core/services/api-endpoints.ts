@@ -14,7 +14,7 @@ export const API = {
     getById: (id: number) => `${BASE}/users/${id}`,
     create: `${BASE}/users`,
     update: (id: number) => `${BASE}/users/${id}`,
-    deactivate: (id: number) => `${BASE}/users/${id}/desactiver`,
+    deactivate: (id: number) => `${BASE}/users/${id}/deactivate`,
     logs: (id: number) => `${BASE}/users/${id}/logs`,
   },
   departements: {
@@ -48,18 +48,17 @@ export const API = {
     validate: (id: number) => `${BASE}/actions/${id}/valider`,
     reject: (id: number) => `${BASE}/actions/${id}/rejeter`,
     evaluate: (id: number) => `${BASE}/actions/${id}/evaluer`,
-    historique: (id: number) => `${BASE}/actions/${id}/historique`,
   },
   commentaires: {
-    getByAction: (actionId: number) => `${BASE}/actions/${actionId}/commentaires`,
-    add: (actionId: number) => `${BASE}/actions/${actionId}/commentaires`,
-    delete: (id: number) => `${BASE}/commentaires/${id}`,
+    getByAction: (actionId: number) => `${BASE}/actions/${actionId}/comments`,
+    add: (actionId: number) => `${BASE}/actions/${actionId}/comments`,
+    delete: (id: number) => `${BASE}/comments/${id}`,
   },
   fichiers: {
-    getByAction: (actionId: number) => `${BASE}/actions/${actionId}/fichiers`,
-    upload: (actionId: number) => `${BASE}/actions/${actionId}/fichiers`,
-    download: (id: number) => `${BASE}/fichiers/${id}/download`,
-    delete: (id: number) => `${BASE}/fichiers/${id}`,
+    getByAction: (actionId: number) => `${BASE}/actions/${actionId}/attachments`,
+    upload: (actionId: number) => `${BASE}/actions/${actionId}/attachments`,
+    download: (id: number) => `${BASE}/attachments/${id}/download`,
+    delete: (id: number) => `${BASE}/attachments/${id}`,
   },
   notifications: {
     getMes: `${BASE}/notifications/my`,
@@ -68,9 +67,9 @@ export const API = {
   },
   stats: {
     global: `${BASE}/stats/global`,
-    byDepartement: `${BASE}/stats/by-departement`,
-    byPilote: `${BASE}/stats/by-pilote`,
-    byPeriode: `${BASE}/stats/by-periode`,
+    byDepartement: `${BASE}/stats/by-department`,
+    byPilote: `${BASE}/stats/by-pilot`,
+    byPeriode: `${BASE}/stats/by-period`,
     performance: `${BASE}/stats/performance`,
     export: {
       pdf: `${BASE}/export/pdf`,

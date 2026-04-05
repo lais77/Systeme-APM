@@ -1,0 +1,95 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Mes Plans d'action</h1>
+    <button class="btn-primary" (click)="ouvrirModal()">+ Nouveau Plan</button>
+  </div>
+
+  <div class="loading" *ngIf="chargement">Chargement...</div>
+
+  <div class="plans-grid" *ngIf="!chargement">
+
+    <div class="plan-card" *ngFor="let plan of plans" [routerLink]="['/plans', plan.id]">
+      <div class="plan-card-header">
+        <span class="badge" [ngClass]="getPrioriteClass(plan.priority)">{{ plan.priority }}</span>
+        <span class="plan-statut">{{ plan.status === 'InProgress' ? '🟢' : '⚫' }}</span>
+      </div>
+      <h3 class="plan-titre">{{ plan.title }}</h3>
+      <p class="plan-processus">{{ plan.processName }}</p>
+      <div class="plan-progress">
+        <div class="progress-wrap">
+          <div class="progress-bar" [style.width.%]="plan.progressPercentage"></div>
+        </div>
+        <span>{{ plan.progressPercentage }}%</span>
+      </div>
+      <div class="plan-footer">
+        <span class="plan-date">📅 {{ plan.dueDate | date:'dd/MM/yyyy' }}</span>
+        <button
+          class="btn-cloturer"
+          *ngIf="plan.status === 'InProgress'"
+          (click)="cloturerPlan(plan.id, $event)"
+        >
+          Clôturer
+        </button>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="plans.length === 0">
+      <p>Aucun plan créé. Commencez par créer votre premier plan.</p>
+      <button class="btn-primary" (click)="ouvrirModal()">+ Nouveau Plan</button>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="modalOuvert" (click)="fermerModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Nouveau Plan d'action</h2>
+        <button (click)="fermerModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Titre *</label>
+          <input type="text" [(ngModel)]="nouveauPlan.title" placeholder="Titre du plan" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="nouveauPlan.description" rows="3" placeholder="Description..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Processus *</label>
+            <select [(ngModel)]="nouveauPlan.processId">
+              <option value="">Sélectionner...</option>
+              <option *ngFor="let p of processus" [value]="p.id">{{ p.name }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Priorité *</label>
+            <select [(ngModel)]="nouveauPlan.priority">
+              <option value="Critical">Critique</option>
+              <option value="High">Haute</option>
+              <option value="Medium">Moyenne</option>
+              <option value="Low">Basse</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date début *</label>
+            <input type="date" [(ngModel)]="nouveauPlan.startDate" />
+          </div>
+          <div class="form-group">
+            <label>Date échéance *</label>
+            <input type="date" [(ngModel)]="nouveauPlan.dueDate" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="fermerModal()">Annuler</button>
+        <button class="btn-primary" (click)="creerPlan()">Créer le plan</button>
+      </div>
+    </div>
+  </div>
+
+</div>

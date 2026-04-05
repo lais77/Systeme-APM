@@ -1,122 +1,98 @@
 export type Role = 'ADMIN' | 'MANAGER' | 'RESPONSABLE' | 'AUDITEUR';
 
-export type StatutAction =
-  | 'CREE'
-  | 'ASSIGNE'
-  | 'EN_COURS'
-  | 'EN_REVISION'
-  | 'VALIDE'
-  | 'REJETE'
-  | 'CLOTURE';
-
-export type Efficacite = 'EFFICACE' | 'MOYEN' | 'INEFFICACE';
-export type Priorite = 'CRITIQUE' | 'HAUTE' | 'MOYENNE' | 'BASSE';
-export type TypeAction = 'PREVENTIF' | 'CORRECTIF';
-export type Criticite = 'FAIBLE' | 'MOYENNE' | 'ELEVEE';
-
 export interface User {
   id: number;
-  nom: string;
-  prenom: string;
+  fullName: string;
   email: string;
   role: Role;
-  departement?: string;
-  equipe?: string;
-  chefHierarchiqueId?: number;
-  actif: boolean;
+  departmentId?: number;
+  teamId?: number;
+  managerId?: number;
+  isActive: boolean;
 }
 
 export interface Plan {
   id: number;
-  titre: string;
+  title: string;
   description?: string;
-  objectif?: string;
-  contexte?: string;
-  piloteId: number;
-  pilote?: User;
-  processus: string;
-  departement?: string;
-  priorite: Priorite;
-  visibilite: 'PUBLIC' | 'PRIVE';
-  dateDebut: Date;
-  dateEcheance: Date;
-  dateCreation: Date;
-  statut: 'EN_COURS' | 'CLOTURE';
-  tauxAvancement: number;
+  objective?: string;
+  priority: string;
+  status: string;
+  startDate: Date;
+  dueDate: Date;
+  progressPercentage: number;
+  createdAt: Date;
+  closedAt?: Date;
+  pilotId: number;
+  pilotName: string;
+  processId: number;
+  processName: string;
+  departmentId?: number;
+  departmentName?: string;
+  totalActions: number;
   actions?: Action[];
 }
 
 export interface Action {
   id: number;
-  planId: number;
   theme: string;
-  type: TypeAction;
-  criticite: Criticite;
-  cause: string;
-  description: string;
-  responsableId: number;
-  responsable?: User;
-  delai: Date;
-  avancement: number;
-  commentaire?: string;
-  statut: StatutAction;
-  dateRealisation?: Date;
-  methodeRealisation?: string;
-  dateVerification?: Date;
-  methodeVerification?: string;
-  efficacite?: Efficacite;
-  noteQualite?: number;
-  commentaireEvaluation?: string;
-  actionParentId?: number;
-  actionEnfant?: Action;
-  historiqueStatuts?: HistoriqueStatut[];
-}
-
-export interface HistoriqueStatut {
-  id: number;
-  actionId: number;
-  statut: StatutAction;
-  date: Date;
-  auteurId: number;
-  auteur?: User;
-  commentaire?: string;
+  anomalyDescription?: string;
+  actionDescription: string;
+  type: string;
+  criticity: string;
+  cause?: string;
+  status: string;
+  progressPercentage: number;
+  deadline: Date;
+  realizationMethod?: string;
+  realizationDate?: Date;
+  verificationMethod?: string;
+  verificationDate?: Date;
+  effectiveness?: string;
+  effectivenessComment?: string;
+  starRating?: number;
+  createdAt: Date;
+  actionPlanId: number;
+  responsibleId: number;
+  responsibleName: string;
+  parentActionId?: number;
 }
 
 export interface Commentaire {
   id: number;
-  actionId: number;
-  auteurId: number;
-  auteur?: User;
-  message: string;
-  dateCreation: Date;
+  actionItemId: number;
+  authorId: number;
+  authorName: string;
+  content: string;
+  createdAt: Date;
 }
 
 export interface Fichier {
   id: number;
-  actionId: number;
-  nom: string;
-  description: string;
-  url: string;
-  version: number;
-  dateUpload: Date;
-  uploadeurId: number;
+  actionItemId: number;
+  fileName: string;
+  description?: string;
+  filePath: string;
+  uploadedAt: Date;
+  uploadedById: number;
 }
 
 export interface Notification {
   id: number;
   userId: number;
-  titre: string;
+  title: string;
   message: string;
-  lu: boolean;
-  dateCreation: Date;
-  actionId?: number;
-  type: 'ATTRIBUTION' | 'RAPPEL' | 'RETARD' | 'STATUT' | 'COMMENTAIRE' | 'ESCALADE';
+  isRead: boolean;
+  createdAt: Date;
+  actionItemId?: number;
+  type: string;
 }
 
 export interface AuthRequest {
   email: string;
   password: string;
 }
+
 export interface AuthResponse {
   token: string;
   user: User;
@@ -125,17 +101,10 @@ export interface AuthResponse {
 export interface StatsGlobal {
   totalPlans: number;
   totalActions: number;
-  tauxRealisation: number;
-  tauxCloture: number;
-  tauxEfficacite: number;
-  actionsEnRetard: number;
-  actionsEnCours: number;
-  actionsCloturees: number;
-}
-
-export interface PagedResult<T> {
-  data: T[];
-  total: number;
-  page: number;
-  pageSize: number;
+  completionRate: number;
+  closureRate: number;
+  effectivenessRate: number;
+  overdueActions: number;
+  inProgressActions: number;
+  closedActions: number;
 }

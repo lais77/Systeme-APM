@@ -1,0 +1,208 @@
+.page { padding: 0; }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  h1 { font-size: 1.5rem; font-weight: 600; color: #1e293b; }
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.plan-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.plan-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.plan-titre {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.plan-processus {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.plan-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.progress-wrap {
+  flex: 1;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #1d4ed8;
+  border-radius: 999px;
+}
+
+.plan-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-date { font-size: 0.8rem; color: #64748b; }
+
+.btn-cloturer {
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #64748b;
+  cursor: pointer;
+  &:hover { background: #fee2e2; border-color: #dc2626; color: #dc2626; }
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-critique { background: #fee2e2; color: #dc2626; }
+.badge-haute { background: #ffedd5; color: #ea580c; }
+.badge-moyenne { background: #fef9c3; color: #ca8a04; }
+.badge-basse { background: #dcfce7; color: #16a34a; }
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #94a3b8;
+
+  p { margin-bottom: 1rem; }
+}
+
+.loading { text-align: center; color: #64748b; padding: 2rem; }
+
+.btn-primary {
+  padding: 0.625rem 1.25rem;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  &:hover { background: #1e40af; }
+}
+
+.btn-secondary {
+  padding: 0.625rem 1.25rem;
+  background: white;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  background: white;
+
+  h2 { font-size: 1.1rem; font-weight: 600; color: #1e293b; }
+  button { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; }
+}
+
+.modal-body {
+  padding: 1.5rem;
+
+  .form-group {
+    margin-bottom: 1rem;
+
+    label { display: block; font-size: 0.875rem; font-weight: 500; color: #334155; margin-bottom: 0.4rem; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+      font-family: inherit;
+      &:focus { outline: none; border-color: #1d4ed8; }
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  position: sticky;
+  bottom: 0;
+  background: white;
+}

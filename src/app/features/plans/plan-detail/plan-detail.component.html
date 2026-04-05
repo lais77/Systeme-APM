@@ -1,0 +1,102 @@
+<div class="page">
+
+  <div class="loading" *ngIf="chargement">Chargement...</div>
+
+  <ng-container *ngIf="!chargement && plan">
+
+    <div class="detail-header">
+      <div class="header-left">
+        <a routerLink="/plans" class="retour">← Retour</a>
+        <h1>{{ plan.title }}</h1>
+        <div class="header-meta">
+          <span class="badge" [ngClass]="getPrioriteClass(plan.priority)">{{ plan.priority }}</span>
+          <span class="processus">{{ plan.processName }}</span>
+          <span class="pilote">👤 {{ plan.pilotName }}</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="taux-cercle">
+          <span class="taux-valeur">{{ plan.progressPercentage }}%</span>
+          <span class="taux-label">Avancement</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-valeur">{{ plan.actions?.length ?? 0 }}</span>
+        <span class="stat-label">Total actions</span>
+      </div>
+      <div class="stat-card stat-encours">
+        <span class="stat-valeur">{{ (plan.actions ?? []).filter(a => a.status === 'InProgress').length }}</span>
+        <span class="stat-label">En cours</span>
+      </div>
+      <div class="stat-card stat-retard">
+        <span class="stat-valeur">{{ (plan.actions ?? []).filter(a => a.status === 'Rejected').length }}</span>
+        <span class="stat-label">Rejetées</span>
+      </div>
+      <div class="stat-card stat-cloture">
+        <span class="stat-valeur">{{ (plan.actions ?? []).filter(a => a.status === 'Closed').length }}</span>
+        <span class="stat-label">Clôturées</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Actions</h2>
+        <button class="btn-primary" [routerLink]="['/plans', plan.id, 'actions', 'nouvelle']">
+          + Ajouter une action
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Thème</th>
+              <th>Description</th>
+              <th>Responsable</th>
+              <th>Type</th>
+              <th>Criticité</th>
+              <th>Délai</th>
+              <th>Statut</th>
+              <th>Avancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let action of plan.actions"
+              [routerLink]="['/actions', action.id]"
+              class="clickable"
+            >
+              <td>{{ action.theme }}</td>
+              <td>{{ action.actionDescription }}</td>
+              <td>{{ action.responsibleName }}</td>
+              <td>{{ action.type }}</td>
+              <td>{{ action.criticity }}</td>
+              <td>{{ action.deadline | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatutActionClass(action.status)">
+                  {{ action.status }}
+                </span>
+              </td>
+              <td>
+                <div class="progress-wrap">
+                  <div class="progress-bar" [style.width.%]="action.progressPercentage"></div>
+                </div>
+                {{ action.progressPercentage }}%
+              </td>
+            </tr>
+            <tr *ngIf="!plan.actions || plan.actions.length === 0">
+              <td colspan="8" class="empty">Aucune action pour ce plan.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <div class="empty" *ngIf="!chargement && !plan">Plan introuvable.</div>
+
+</div>
