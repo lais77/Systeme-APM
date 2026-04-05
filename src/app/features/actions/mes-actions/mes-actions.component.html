@@ -1,0 +1,73 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Mes Actions</h1>
+    <span class="total">{{ actionsFiltrees.length }} action(s)</span>
+  </div>
+
+  <div class="filtres">
+    <select [(ngModel)]="filtreStatut" (ngModelChange)="filtrer()">
+      <option value="">Tous les statuts</option>
+      <option value="Created">Créé</option>
+      <option value="Assigned">Assigné</option>
+      <option value="InProgress">En cours</option>
+      <option value="UnderReview">En révision</option>
+      <option value="Validated">Validé</option>
+      <option value="Rejected">Rejeté</option>
+      <option value="Closed">Clôturé</option>
+    </select>
+  </div>
+
+  <div class="loading" *ngIf="chargement">Chargement...</div>
+
+  <div class="table-container" *ngIf="!chargement">
+    <table>
+      <thead>
+        <tr>
+          <th>Thème</th>
+          <th>Description</th>
+          <th>Criticité</th>
+          <th>Type</th>
+          <th>Délai</th>
+          <th>Avancement</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let action of actionsFiltrees">
+          <td>{{ action.theme }}</td>
+          <td>{{ action.actionDescription }}</td>
+          <td>
+            <span class="badge" [ngClass]="getCriticiteClass(action.criticity)">
+              {{ action.criticity }}
+            </span>
+          </td>
+          <td>{{ action.type }}</td>
+          <td [class.retard]="isEnRetard(action.deadline)">
+            {{ action.deadline | date:'dd/MM/yyyy' }}
+            <span *ngIf="isEnRetard(action.deadline)" class="retard-label">⚠️ Retard</span>
+          </td>
+          <td>
+            <div class="progress-wrap">
+              <div class="progress-bar" [style.width.%]="action.progressPercentage"></div>
+            </div>
+            {{ action.progressPercentage }}%
+          </td>
+          <td>
+            <span class="badge" [ngClass]="getStatutClass(action.status)">
+              {{ action.status }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-detail" [routerLink]="['/actions', action.id]">
+              Voir
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="actionsFiltrees.length === 0">
+          <td colspan="8" class="empty">Aucune action assignée.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

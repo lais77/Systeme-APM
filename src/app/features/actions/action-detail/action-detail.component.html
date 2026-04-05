@@ -1,0 +1,246 @@
+<div class="page">
+  <div class="loading" *ngIf="chargement">Chargement...</div>
+
+  <ng-container *ngIf="!chargement && action">
+
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="header-left">
+        <a class="retour" (click)="retour()">← Retour</a>
+        <h1>{{ action.theme }}</h1>
+        <div class="header-meta">
+          <span class="badge" [ngClass]="getStatutClass(action.status)">{{ action.status }}</span>
+          <span class="type-badge">{{ action.type }}</span>
+          <span class="criticity-badge">{{ action.criticity }}</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-soumettre" *ngIf="peutSoumettre()" (click)="modalSoumission = true">
+          Soumettre pour validation
+        </button>
+        <button class="btn-valider" *ngIf="peutValider()" (click)="modalValidation = true">
+          Valider / Rejeter
+        </button>
+        <button class="btn-evaluer" *ngIf="peutEvaluer()" (click)="modalEvaluation = true">
+          Évaluer l'efficacité
+        </button>
+      </div>
+    </div>
+
+    <!-- Infos -->
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Informations</h3>
+        <div class="info-row">
+          <span class="info-label">Description</span>
+          <span class="info-value">{{ action.actionDescription }}</span>
+        </div>
+        <div class="info-row" *ngIf="action.anomalyDescription">
+          <span class="info-label">Anomalie</span>
+          <span class="info-value">{{ action.anomalyDescription }}</span>
+        </div>
+        <div class="info-row" *ngIf="action.cause">
+          <span class="info-label">Cause</span>
+          <span class="info-value">{{ action.cause }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Responsable</span>
+          <span class="info-value">{{ action.responsibleName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Délai</span>
+          <span class="info-value">{{ action.deadline | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Avancement</h3>
+        <div class="progress-cercle">
+          <span class="progress-valeur">{{ action.progressPercentage }}%</span>
+        </div>
+        <div *ngIf="action.realizationMethod">
+          <div class="info-row">
+            <span class="info-label">Méthode réalisation</span>
+            <span class="info-value">{{ action.realizationMethod }}</span>
+          </div>
+        </div>
+        <div *ngIf="action.realizationDate">
+          <div class="info-row">
+            <span class="info-label">Date réalisation</span>
+            <span class="info-value">{{ action.realizationDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+        <div *ngIf="action.effectiveness">
+          <div class="info-row">
+            <span class="info-label">Efficacité</span>
+            <span class="info-value">{{ action.effectiveness }}</span>
+          </div>
+        </div>
+        <div *ngIf="action.starRating">
+          <div class="info-row">
+            <span class="info-label">Note</span>
+            <span class="info-value">⭐ {{ action.starRating }}/5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Commentaires -->
+    <div class="section">
+      <h2>Commentaires</h2>
+      <div class="commentaires-list">
+        <div class="commentaire" *ngFor="let c of commentaires">
+          <div class="commentaire-avatar">{{ c.authorName?.charAt(0) }}</div>
+          <div class="commentaire-content">
+            <div class="commentaire-header">
+              <span class="commentaire-auteur">{{ c.authorName }}</span>
+              <span class="commentaire-date">{{ c.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <p>{{ c.content }}</p>
+          </div>
+        </div>
+        <div class="empty" *ngIf="commentaires.length === 0">Aucun commentaire.</div>
+      </div>
+      <div class="commentaire-input">
+        <textarea [(ngModel)]="nouveauCommentaire" placeholder="Ajouter un commentaire..." rows="3"></textarea>
+        <button class="btn-primary" (click)="ajouterCommentaire()">Envoyer</button>
+      </div>
+    </div>
+
+    <!-- Pièces jointes -->
+    <div class="section">
+      <h2>Pièces jointes</h2>
+      <div class="fichiers-list">
+        <div class="fichier" *ngFor="let f of fichiers">
+          <span class="fichier-icon">📎</span>
+          <div class="fichier-info">
+            <span class="fichier-nom">{{ f.fileName }}</span>
+            <span class="fichier-desc" *ngIf="f.description">{{ f.description }}</span>
+          </div>
+          <div class="fichier-actions">
+            <button class="btn-icon" (click)="telechargerFichier(f.id, f.fileName)">⬇️</button>
+            <button class="btn-icon" (click)="supprimerFichier(f.id)">🗑️</button>
+          </div>
+        </div>
+        <div class="empty" *ngIf="fichiers.length === 0">Aucune pièce jointe.</div>
+      </div>
+      <div class="upload-zone">
+        <input type="file" (change)="onFichierChange($event)" id="fileInput" />
+        <input type="text" [(ngModel)]="descriptionFichier" placeholder="Description du fichier" />
+        <button class="btn-primary" (click)="uploadFichier()" [disabled]="!fichierSelectionne">
+          Uploader
+        </button>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <!-- Modal Soumission -->
+  <div class="modal-overlay" *ngIf="modalSoumission" (click)="modalSoumission = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Soumettre l'action</h2>
+        <button (click)="modalSoumission = false">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Méthode de réalisation *</label>
+          <textarea [(ngModel)]="soumissionData.realizationMethod" rows="3" placeholder="Décrivez la méthode..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Date de réalisation *</label>
+          <input type="date" [(ngModel)]="soumissionData.realizationDate" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="modalSoumission = false">Annuler</button>
+        <button class="btn-primary" (click)="soumettre()">Soumettre</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Validation -->
+  <div class="modal-overlay" *ngIf="modalValidation" (click)="modalValidation = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Valider / Rejeter l'action</h2>
+        <button (click)="modalValidation = false">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Décision</label>
+          <select [(ngModel)]="validationData.isApproved">
+            <option [ngValue]="true">Valider</option>
+            <option [ngValue]="false">Rejeter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Commentaire</label>
+          <textarea [(ngModel)]="validationData.comment" rows="3" placeholder="Commentaire..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="modalValidation = false">Annuler</button>
+        <button class="btn-primary" (click)="valider()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Evaluation -->
+  <div class="modal-overlay" *ngIf="modalEvaluation" (click)="modalEvaluation = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Évaluer l'efficacité</h2>
+        <button (click)="modalEvaluation = false">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Efficacité</label>
+          <select [(ngModel)]="evaluationData.effectiveness">
+            <option value="Effective">Efficace 😊</option>
+            <option value="Medium">Moyen 😐</option>
+            <option value="Ineffective">Inefficace 😟</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Note (étoiles)</label>
+          <select [(ngModel)]="evaluationData.starRating">
+            <option [ngValue]="1">⭐</option>
+            <option [ngValue]="2">⭐⭐</option>
+            <option [ngValue]="3">⭐⭐⭐</option>
+            <option [ngValue]="4">⭐⭐⭐⭐</option>
+            <option [ngValue]="5">⭐⭐⭐⭐⭐</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Commentaire</label>
+          <textarea [(ngModel)]="evaluationData.comment" rows="3"></textarea>
+        </div>
+        <div *ngIf="evaluationData.effectiveness === 'Ineffective'">
+          <h3>Action de remplacement</h3>
+          <div class="form-group">
+            <label>Thème *</label>
+            <input type="text" [(ngModel)]="actionRemplacement.theme" />
+          </div>
+          <div class="form-group">
+            <label>Description *</label>
+            <textarea [(ngModel)]="actionRemplacement.actionDescription" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Délai *</label>
+            <input type="date" [(ngModel)]="actionRemplacement.deadline" />
+          </div>
+          <div class="form-group">
+            <label>Responsable ID *</label>
+            <input type="number" [(ngModel)]="actionRemplacement.responsibleId" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="modalEvaluation = false">Annuler</button>
+        <button class="btn-primary" (click)="evaluer()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+</div>
