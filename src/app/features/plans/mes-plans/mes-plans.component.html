@@ -61,8 +61,7 @@
             <label>Processus *</label>
             <select [(ngModel)]="nouveauPlan.processId">
               <option value="">Sélectionner...</option>
-              <option *ngFor="let p of processus" [value]="p.id">{{ p.name }}</option>
-            </select>
+<option *ngFor="let p of processus" [value]="p.id">{{ p.nom }}</option>            </select>
           </div>
           <div class="form-group">
             <label>Priorité *</label>

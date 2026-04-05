@@ -9,6 +9,7 @@ export interface User {
   teamId?: number;
   managerId?: number;
   isActive: boolean;
+  password?: string;
 }
 
 export interface Plan {
@@ -95,7 +96,14 @@ export interface AuthRequest {
 
 export interface AuthResponse {
   token: string;
-  user: User;
+  expiration: string;
+  user: {
+    id: number;
+    fullName: string;
+    email: string;
+    role: Role;
+    departmentName?: string;
+  };
 }
 
 export interface StatsGlobal {

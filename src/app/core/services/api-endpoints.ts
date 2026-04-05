@@ -24,11 +24,11 @@ export const API = {
     delete: (id: number) => `${BASE}/departments/${id}`,
   },
   processus: {
-    getAll: `${BASE}/processes`,
-    create: `${BASE}/processes`,
-    update: (id: number) => `${BASE}/processes/${id}`,
-    delete: (id: number) => `${BASE}/processes/${id}`,
-  },
+  getAll: `${BASE}/Processes`,
+  create: `${BASE}/Processes`,
+  update: (id: number) => `${BASE}/Processes/${id}`,
+  delete: (id: number) => `${BASE}/Processes/${id}`,
+},
   plans: {
     getAll: `${BASE}/plans`,
     getMes: `${BASE}/plans/mes-plans`,

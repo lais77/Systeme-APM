@@ -53,11 +53,15 @@
       <div class="modal-body">
         <div class="form-group">
           <label>Nom complet</label>
-          <input type="text" [(ngModel)]="userSelectionne.fullName" />
+          <input type="text" [(ngModel)]="userSelectionne.fullName" placeholder="Nom complet" />
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" [(ngModel)]="userSelectionne.email" />
+          <input type="email" [(ngModel)]="userSelectionne.email" placeholder="email@tis.com" />
+        </div>
+        <div class="form-group" *ngIf="!modeEdition">
+          <label>Mot de passe</label>
+          <input type="password" [(ngModel)]="userSelectionne.password" placeholder="••••••••" />
         </div>
         <div class="form-group">
           <label>Rôle</label>

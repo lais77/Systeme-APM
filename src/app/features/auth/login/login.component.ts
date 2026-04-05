@@ -18,7 +18,7 @@ export class LoginComponent {
   erreur = '';
   chargement = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
     if (!this.email || !this.motDePasse) {
@@ -29,12 +29,15 @@ export class LoginComponent {
     this.erreur = '';
 
     this.authService.login({ email: this.email, password: this.motDePasse }).subscribe({
-      next: (res) => {
+      next: () => {
         this.chargement = false;
-        const role = res.user.role;
-        if (role === 'ADMIN') this.router.navigate(['/admin']);
+        const user = this.authService.getCurrentUser();
+        const role = user?.role;
+        if (role === 'ADMIN') this.router.navigate(['/admin/users']);
         else if (role === 'MANAGER') this.router.navigate(['/plans']);
-        else this.router.navigate(['/actions/mes-actions']);
+        else if (role === 'RESPONSABLE') this.router.navigate(['/actions/mes-actions']);
+        else if (role === 'AUDITEUR') this.router.navigate(['/dashboard']);
+        else this.router.navigate(['/auth/login']);
       },
       error: () => {
         this.chargement = false;

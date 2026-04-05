@@ -15,12 +15,21 @@ export class AuthService {
     if (stored) this.currentUserSubject.next(JSON.parse(stored));
   }
 
-  login(credentials: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(API.auth.login, credentials).pipe(
+  login(credentials: AuthRequest): Observable<any> {
+    return this.http.post<any>(API.auth.login, credentials).pipe(
       tap(res => {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('user', JSON.stringify(res.user));
-        this.currentUserSubject.next(res.user);
+        if (res && res.token && res.user) {
+          const user: User = {
+            id: res.user.id,
+            fullName: res.user.fullName,
+            email: res.user.email,
+            role: res.user.role,
+            isActive: true
+          };
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        }
       })
     );
   }
@@ -52,7 +61,7 @@ export class AuthService {
     return this.http.post(API.auth.forgotPassword, { email });
   }
 
-  resetPassword(token: string, motDePasse: string): Observable<any> {
-    return this.http.post(API.auth.resetPassword, { token, motDePasse });
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(API.auth.resetPassword, { token, password });
   }
 }

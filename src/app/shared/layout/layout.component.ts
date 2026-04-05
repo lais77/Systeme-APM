@@ -21,6 +21,7 @@ export class LayoutComponent {
   isAdmin(): boolean { return this.user?.role === 'ADMIN'; }
   isManager(): boolean { return this.user?.role === 'MANAGER'; }
   isResponsable(): boolean { return this.user?.role === 'RESPONSABLE'; }
+  isAuditeur(): boolean { return this.user?.role === 'AUDITEUR'; }
 
   logout(): void { this.authService.logout(); }
 

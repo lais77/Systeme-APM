@@ -1,6 +1,5 @@
 <div class="app-container">
 
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <span class="logo">APM</span>
@@ -11,12 +10,6 @@
 
       <!-- ADMIN -->
       <ng-container *ngIf="isAdmin()">
-        <a routerLink="/dashboard" routerLinkActive="active">
-          <span class="icon">📊</span> Dashboard
-        </a>
-        <a routerLink="/dashboard/reporting" routerLinkActive="active">
-          <span class="icon">📈</span> Reporting
-        </a>
         <a routerLink="/admin/users" routerLinkActive="active">
           <span class="icon">👥</span> Utilisateurs
         </a>
@@ -25,6 +18,9 @@
         </a>
         <a routerLink="/admin/processus" routerLinkActive="active">
           <span class="icon">⚙️</span> Processus
+        </a>
+        <a routerLink="/notifications" routerLinkActive="active">
+          <span class="icon">🔔</span> Notifications
         </a>
       </ng-container>
 
@@ -39,6 +35,9 @@
         <a routerLink="/plans/mes-plans" routerLinkActive="active">
           <span class="icon">📁</span> Mes Plans
         </a>
+        <a routerLink="/notifications" routerLinkActive="active">
+          <span class="icon">🔔</span> Notifications
+        </a>
       </ng-container>
 
       <!-- RESPONSABLE -->
@@ -46,12 +45,20 @@
         <a routerLink="/actions/mes-actions" routerLinkActive="active">
           <span class="icon">✅</span> Mes Actions
         </a>
+        <a routerLink="/notifications" routerLinkActive="active">
+          <span class="icon">🔔</span> Notifications
+        </a>
       </ng-container>
 
-      <!-- COMMUN -->
-      <a routerLink="/notifications" routerLinkActive="active">
-        <span class="icon">🔔</span> Notifications
-      </a>
+      <!-- AUDITEUR -->
+      <ng-container *ngIf="isAuditeur()">
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <span class="icon">📊</span> Dashboard
+        </a>
+        <a routerLink="/notifications" routerLinkActive="active">
+          <span class="icon">🔔</span> Notifications
+        </a>
+      </ng-container>
 
     </nav>
 
@@ -69,7 +76,6 @@
     </div>
   </aside>
 
-  <!-- Contenu principal -->
   <main class="main-content">
     <router-outlet />
   </main>
